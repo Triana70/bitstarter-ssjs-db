@@ -6,12 +6,16 @@ echo -e "\n\nNOW ENTER YOUR HEROKU PASSWORD"
 # Set up heroku.
 # - devcenter.heroku.com/articles/config-vars
 # - devcenter.heroku.com/articles/heroku-postgresql
-heroku login
-heroku create
-ssh-keygen -t rsa
+## crea aplicacion en Heroku para produccion
+Heroku login
+heroku create bitstarter-ssjs-db-fjh
+## anyade confianza desde maquina local de desarrollo a infra de heroku
+Ssh -keygen -t rsa
 heroku keys:add
+## anyade bd a nuestra infra
 heroku addons:add heroku-postgresql:dev
 heroku pg:promote `heroku config  | grep HEROKU_POSTGRESQL | cut -f1 -d':'`
+## permite disponer de valores de entorno confidenciales (que no estaran en github)
 heroku plugins:install git://github.com/ddollar/heroku-config.git
 
 # Set up heroku configuration variables
